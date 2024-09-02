@@ -2,7 +2,7 @@ provider "aws" {
   region = "us-east-2"
 }
 
- IAM Role for Lambda Execution
+ #IAM Role for Lambda Execution
  resource "aws_iam_role" "lambda_exec_role_1" {
    name = "lambda_exec_role_1"
    assume_role_policy = jsonencode({
