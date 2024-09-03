@@ -1,3 +1,4 @@
+/*
 const { NodeSDK } = require('@opentelemetry/sdk-node');
 const { OTLPTraceExporter } = require('@opentelemetry/exporter-trace-otlp-http');
 const { OTLPMetricExporter } = require('@opentelemetry/exporter-metrics-otlp-http');
@@ -5,7 +6,26 @@ const { getNodeAutoInstrumentations } = require('@opentelemetry/auto-instrumenta
 const { diag, DiagConsoleLogger, DiagLogLevel } = require('@opentelemetry/api');
 const { Resource } = require('@opentelemetry/resources');
 const { SemanticResourceAttributes } = require('@opentelemetry/semantic-conventions');
-const logger = require('./logger'); 
+
+
+diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
+
+
+
+  const collectorOptions = {
+    url: 'https://otlp-gateway-prod-us-east-0.grafana.net/otlp/v1/logs', 
+    headers: headers,
+  };
+
+  const exporter = new OTLPLogExporter(collectorOptions);
+
+const loggerProvider = new LoggerProvider();
+loggerProvider.addLogRecordProcessor(
+  new SimpleLogRecordProcessor(exporter)
+);
+
+logs.setGlobalLoggerProvider(loggerProvider);
+
 
 const headers = {
   'Authorization': 'Basic OTg2MTA2OmdsY19leUp2SWpvaU1URTNOVE0yTmlJc0ltNGlPaUpoZDNNdFlYZHpMV3hoYldKa1lTSXNJbXNpT2lJMVJFUktORFk1VDA4eGVXaHdjVTh6VlRJM1NEWlBSRElpTENKdElqcDdJbklpT2lKMWN5SjlmUT09'
@@ -26,19 +46,13 @@ const metricExporter = new OTLPMetricExporter({
   headers: headers
 });
 
-// Configura el exportador de logs
-const logExporter = new OTLPLogExporter({
-  url: 'https://otlp-gateway-prod-us-east-0.grafana.net/otlp/v1/logs', 
-  headers: headers
-});
-
 const sdk = new NodeSDK({
   resource: new Resource({
     [SemanticResourceAttributes.SERVICE_NAME]: 'datos-lambda'
   }),
   traceExporter,
   metricExporter,
-  logExporter,
+  loggerProvider,
   instrumentations: [getNodeAutoInstrumentations()],
 });
 
@@ -56,3 +70,20 @@ process.on('SIGTERM', () => {
     .catch((error) => console.error('Error cerrando OpenTelemetry SDK', error))
     .finally(() => process.exit(0));
 });
+
+
+
+const logger = logs.getLogger('datos-lambda', '1.0.0');
+
+function info(message, attributes = {}) {
+    logger.emit({
+      severityNumber: SeverityNumber.INFO,
+      severityText: 'INFO',
+      body: message,
+      attributes: attributes,
+    });
+  }
+
+  module.exports = { logger, info };
+
+**/
