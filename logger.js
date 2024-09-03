@@ -1,11 +1,11 @@
 
-import { DiagConsoleLogger, DiagLogLevel, diag } from '@opentelemetry/api';
-import { logs, SeverityNumber } from '@opentelemetry/api-logs';
-import {
+const { DiagConsoleLogger, DiagLogLevel, diag } = '@opentelemetry/api';
+const { logs, SeverityNumber } = '@opentelemetry/api-logs';
+const {
   LoggerProvider,
   SimpleLogRecordProcessor,
-} from '@opentelemetry/sdk-logs';
-import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-http';
+} = '@opentelemetry/sdk-logs';
+const { OTLPLogExporter } = '@opentelemetry/exporter-logs-otlp-http';
 
 
 
