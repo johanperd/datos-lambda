@@ -41,7 +41,7 @@ const logExporter = new OTLPLogExporter({
 const sdk = new NodeSDK({
   
   resource: new Resource({
-    [SemanticResourceAttributes.SERVICE_NAME]: 'datos-dynamo'
+    [SemanticResourceAttributes.SERVICE_NAME]: 'datos-LAMBDA'
   }),    traceExporter,
     metricExporter,
     logExporter,
