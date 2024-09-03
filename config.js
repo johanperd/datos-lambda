@@ -14,6 +14,7 @@ const DEFAULT_COLLECTOR_URL = `https://otlp-gateway-prod-us-east-0.grafana.net/o
 const { getEnv } = require('./path-to-getEnv'); // Asegúrate de ajustar la ruta según tu estructura de proyecto
 const { OTLPExporterConfigBase } = require('./path-to-OTLPExporterConfigBase'); // Asegúrate de ajustar la ruta según tu estructura de proyecto
 
+
 /**
  * common get default url
  * @param {OTLPExporterConfigBase} config - Exporter config
