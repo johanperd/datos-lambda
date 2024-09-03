@@ -15,6 +15,7 @@ const datos = [
 
 
 app.get('/datos', (req, res) => {
+    logger.info('headers '+ req.headers);
     logger.info('Ruta /datos accedida, retornado datos {'+JSON.stringify(datos)+'}'); // Log de información
     res.send(JSON.stringify(datos));
 });
