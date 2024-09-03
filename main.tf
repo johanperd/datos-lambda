@@ -17,6 +17,8 @@ provider "aws" {
    })
  }
 
+
+
 resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
   role       = aws_iam_role.lambda_exec_role_1.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
@@ -29,7 +31,12 @@ resource "aws_lambda_function" "datos-lambda" {
   handler       = "app.handler"  # Nombre del archivo y exportación del manejador
   role          = aws_iam_role.lambda_exec_role_1.arn
   filename      = "datos-lambda.zip"
-
+  environment {
+    variables = {
+      OTEL_EXPORTER_OTLP_ENDPOINT = "https://otlp-gateway-prod-us-east-0.grafana.net/otlp"
+      OTEL_EXPORTER_OTLP_LOGS_ENDPOINT = "https://otlp-gateway-prod-us-east-0.grafana.net/otlp"
+    }
+  },
   source_code_hash = filebase64sha256("datos-lambda.zip")
 }
 

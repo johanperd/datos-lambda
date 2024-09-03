@@ -1,7 +1,7 @@
 require('./tracing'); 
 const express = require('express');
 const serverless = require('serverless-http');
-const logger = require('./tracing'); 
+const logger = require('./logger'); 
 
 const app = express();
 
