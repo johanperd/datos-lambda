@@ -29,13 +29,13 @@ resource "aws_lambda_function" "datos-lambda" {
   runtime       = "nodejs20.x"
   handler       = "app.handler"  # Nombre del archivo y exportación del manejador
   role          = aws_iam_role.lambda_exec_role_1.arn
-  filename      = "datos-lambda.zip",
+  filename      = "datos-lambda.zip"
   environment {
     variables = {
       OTEL_EXPORTER_OTLP_ENDPOINT = "https://otlp-gateway-prod-us-east-0.grafana.net/otlp"
       OTEL_EXPORTER_OTLP_LOGS_ENDPOINT = "https://otlp-gateway-prod-us-east-0.grafana.net/otlp"
     }
-  },
+  }
   source_code_hash = filebase64sha256("datos-lambda.zip")
 }
 
