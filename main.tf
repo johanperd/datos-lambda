@@ -23,14 +23,14 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
 }
 
 # Lambda Function
-resource "aws_lambda_function" "node_app_datos" {
-  function_name = "node_app_datos"
+resource "aws_lambda_function" "datos-lambda" {
+  function_name = "datos-lambda"
   runtime       = "nodejs20.x"
   handler       = "app.handler"  # Nombre del archivo y exportación del manejador
   role          = aws_iam_role.lambda_exec_role_1.arn
-  filename      = "node_app_datos.zip"
+  filename      = "datos-lambda.zip"
 
-  source_code_hash = filebase64sha256("node_app_datos.zip")
+  source_code_hash = filebase64sha256("datos-lambda.zip")
 }
 
 # API Gateway HTTP API
@@ -43,7 +43,7 @@ resource "aws_apigatewayv2_api" "api" {
 resource "aws_apigatewayv2_integration" "lambda_integration" {
   api_id          = aws_apigatewayv2_api.api.id
   integration_type = "AWS_PROXY"
-  integration_uri  = "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/${aws_lambda_function.node_app_datos.arn}/invocations"
+  integration_uri  = "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/${aws_lambda_function.datos-lambda.arn}/invocations"
   payload_format_version = "2.0"
 }
 
@@ -64,7 +64,7 @@ resource "aws_apigatewayv2_stage" "stage" {
 # Lambda Permission for API Gateway
 resource "aws_lambda_permission" "allow_apigateway" {
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.node_app_datos.function_name
+  function_name = aws_lambda_function.datos-lambda.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.api.execution_arn}/*/*"
 }

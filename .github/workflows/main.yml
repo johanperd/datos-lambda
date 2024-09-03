@@ -23,7 +23,7 @@ jobs:
       run: npm install
 
     - name: Zip Lambda Function
-      run: zip -r node_app_datos.zip .
+      run: zip -r datos-lambda.zip .
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
