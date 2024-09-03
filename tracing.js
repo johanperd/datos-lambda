@@ -34,8 +34,9 @@ const metricExporter = new OTLPMetricExporter({
 const logExporter = new OTLPLogExporter({
     url: 'https://otlp-gateway-prod-us-east-0.grafana.net/otlp/v1/logs', // Cambia la URL según tu backend de OTLP
     headers: headers
-
   });
+
+  
 
 // Configura el SDK de Node con los exportadores y las instrumentaciones automáticas
 const sdk = new NodeSDK({
