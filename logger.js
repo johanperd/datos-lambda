@@ -3,7 +3,6 @@ import { DiagConsoleLogger, DiagLogLevel, diag } from '@opentelemetry/api';
 import { logs, SeverityNumber } from '@opentelemetry/api-logs';
 import {
   LoggerProvider,
-  ConsoleLogRecordExporter,
   SimpleLogRecordProcessor,
 } from '@opentelemetry/sdk-logs';
 import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-http';
@@ -17,7 +16,7 @@ const headers = {
   };
 
   const collectorOptions = {
-    url: 'https://otlp-gateway-prod-us-east-0.grafana.net/otlp/v1/logs', // Reemplaza con la URL de tu Collector
+    url: 'https://otlp-gateway-prod-us-east-0.grafana.net/otlp/v1/logs', 
     headers: headers,
   };
 
@@ -32,11 +31,13 @@ logs.setGlobalLoggerProvider(loggerProvider);
 
 const logger = logs.getLogger('datos-lambda', '1.0.0');
 
+/** 
 logger.emit({
   severityNumber: SeverityNumber.INFO,
   severityText: 'INFO',
   body: 'this is a log record body',
   attributes: { 'log.type': 'custom' },
-});
+});*/
 
 module.exports = logger;
+
