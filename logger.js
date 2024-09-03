@@ -1,21 +1,42 @@
-const { createLogger, format, transports } = require('winston');
-const { combine, timestamp, printf } = format;
 
-// Formato personalizado para los logs
-const logFormat = printf(({ level, message, timestamp }) => {
-    return `${timestamp} [${level}]: ${message}`;
-});
+import { DiagConsoleLogger, DiagLogLevel, diag } from '@opentelemetry/api';
+import { logs, SeverityNumber } from '@opentelemetry/api-logs';
+import {
+  LoggerProvider,
+  ConsoleLogRecordExporter,
+  SimpleLogRecordProcessor,
+} from '@opentelemetry/sdk-logs';
+import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-http';
 
-const logger = createLogger({
-    level: 'info',
-    format: combine(
-        timestamp(),
-        logFormat
-    ),
-    transports: [
-        new transports.Console(),
-        new transports.File({ filename: 'app.log' })
-    ]
+
+
+diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
+
+const headers = {
+    'Authorization': 'Basic OTg2MTA2OmdsY19leUp2SWpvaU1URTNOVE0yTmlJc0ltNGlPaUpoZDNNdFlYZHpMV3hoYldKa1lTSXNJbXNpT2lJMVJFUktORFk1VDA4eGVXaHdjVTh6VlRJM1NEWlBSRElpTENKdElqcDdJbklpT2lKMWN5SjlmUT09'
+  };
+
+  const collectorOptions = {
+    url: 'https://otlp-gateway-prod-us-east-0.grafana.net/otlp/v1/logs', // Reemplaza con la URL de tu Collector
+    headers: headers,
+  };
+
+  const exporter = new OTLPLogExporter(collectorOptions);
+
+const loggerProvider = new LoggerProvider();
+loggerProvider.addLogRecordProcessor(
+  new SimpleLogRecordProcessor(exporter)
+);
+
+logs.setGlobalLoggerProvider(loggerProvider);
+
+const logger = logs.getLogger('datos-lambda', '1.0.0');
+
+logger.emit({
+  severityNumber: SeverityNumber.INFO,
+  severityText: 'INFO',
+  body: 'this is a log record body',
+  attributes: { 'log.type': 'custom' },
 });
 
 module.exports = logger;

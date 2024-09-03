@@ -1,7 +1,6 @@
 const { NodeSDK } = require('@opentelemetry/sdk-node');
 const { OTLPTraceExporter } = require('@opentelemetry/exporter-trace-otlp-http');
 const { OTLPMetricExporter } = require('@opentelemetry/exporter-metrics-otlp-http');
-const { OTLPLogExporter } = require('@opentelemetry/exporter-logs-otlp-http');
 const { getNodeAutoInstrumentations } = require('@opentelemetry/auto-instrumentations-node');
 const { diag, DiagConsoleLogger, DiagLogLevel } = require('@opentelemetry/api');
 const { Resource } = require('@opentelemetry/resources');
@@ -27,20 +26,12 @@ const metricExporter = new OTLPMetricExporter({
   headers: headers
 });
 
-
-// Configura el exportador de logs
-const logExporter = new OTLPLogExporter({
-  url: 'https://otlp-gateway-prod-us-east-0.grafana.net/otlp/v1/logs', 
-  headers: headers
-});
-
 const sdk = new NodeSDK({
   resource: new Resource({
     [SemanticResourceAttributes.SERVICE_NAME]: 'datos-lambda'
   }),
   traceExporter,
   metricExporter,
-  logExporter,
   instrumentations: [getNodeAutoInstrumentations()],
 });
 
