@@ -13,7 +13,6 @@ const datos = [
     { id: 5, nombre: 'julieta' },
 ];
 
-
 app.get('/datos', (req, res) => {
     logger.info('headers '+ req.headers);
     logger.info('Ruta /datos accedida, retornado datos {'+JSON.stringify(datos)+'}'); // Log de información

@@ -7,8 +7,6 @@ const {
 } = require('@opentelemetry/sdk-logs');
 const { OTLPLogExporter } = require('@opentelemetry/exporter-logs-otlp-http');
 
-
-
 diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
 
 const headers = {
