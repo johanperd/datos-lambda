@@ -1,11 +1,11 @@
 
-const { DiagConsoleLogger, DiagLogLevel, diag } = '@opentelemetry/api';
-const { logs, SeverityNumber } = '@opentelemetry/api-logs';
+const { DiagConsoleLogger, DiagLogLevel, diag } = require('@opentelemetry/api');
+const { logs, SeverityNumber } = require('@opentelemetry/api-logs');
 const {
   LoggerProvider,
   SimpleLogRecordProcessor,
-} = '@opentelemetry/sdk-logs';
-const { OTLPLogExporter } = '@opentelemetry/exporter-logs-otlp-http';
+} = require('@opentelemetry/sdk-logs');
+const { OTLPLogExporter } = require('@opentelemetry/exporter-logs-otlp-http');
 
 
 
