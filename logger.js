@@ -29,13 +29,14 @@ logs.setGlobalLoggerProvider(loggerProvider);
 
 const logger = logs.getLogger('datos-lambda', '1.0.0');
 
-/** 
-logger.emit({
-  severityNumber: SeverityNumber.INFO,
-  severityText: 'INFO',
-  body: 'this is a log record body',
-  attributes: { 'log.type': 'custom' },
-});*/
+function info(message, attributes = {}) {
+    logger.emit({
+      severityNumber: SeverityNumber.INFO,
+      severityText: 'INFO',
+      body: message,
+      attributes: attributes,
+    });
+  }
 
-module.exports = logger;
+  module.exports = { logger, info };
 

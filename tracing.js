@@ -26,12 +26,19 @@ const metricExporter = new OTLPMetricExporter({
   headers: headers
 });
 
+// Configura el exportador de logs
+const logExporter = new OTLPLogExporter({
+  url: 'https://otlp-gateway-prod-us-east-0.grafana.net/otlp/v1/logs', 
+  headers: headers
+});
+
 const sdk = new NodeSDK({
   resource: new Resource({
     [SemanticResourceAttributes.SERVICE_NAME]: 'datos-lambda'
   }),
   traceExporter,
   metricExporter,
+  logExporter,
   instrumentations: [getNodeAutoInstrumentations()],
 });
 
